@@ -4,18 +4,114 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Parallax Website/title>
-        <link rel="stylesheet" href="style.css">
+    <title>Parallax Website</title>
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <header>
-        <a href="#" class="logo">Logo</a>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Work</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
+      <a href="#" class="logo">Logo</a>
+      <ul>
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Work</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
     </header>
+    <section>
+      <img src="./images/stars.png" id="stars" />
+      <img src="./images/moon.png" id="moon" />
+      <img src="./images/mountains_behind.png" id="mountains_behind" />
+      <h2 id="text">Moon Light</h2>
+      <a href="#sec" class="btn">Explore</a>
+      <img src="./images/mountains_front.png" id="mountains_front" />
+    </section>
+    <div class="sec" id="sec">
+      <h2>Parallax Scrolling Effects</h2>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac ligula
+        eu mi tempus ornare. Donec vulputate tincidunt tincidunt. Proin aliquet
+        hendrerit ullamcorper. Vestibulum finibus, nibh ut venenatis tristique,
+        massa nibh congue ante, a molestie dolor ex eget lorem. Praesent luctus
+        augue et dictum hendrerit. Fusce pulvinar id neque at aliquet. Donec
+        aliquam, tellus in pretium egestas, elit tortor ultrices lorem, et
+        interdum dui magna finibus risus. Maecenas tortor elit, cursus quis
+        augue quis, mollis lacinia elit. Phasellus et nunc ac nunc tincidunt
+        viverra. Quisque luctus, nulla sit amet tempor varius, risus tortor
+        pharetra leo, nec rutrum lorem ligula commodo dui. Mauris id odio metus.
+        Phasellus sollicitudin molestie orci, a lacinia nulla suscipit quis. In
+        vel purus et mauris iaculis egestas quis a tortor. Suspendisse non sem
+        eu odio mollis condimentum eu lacinia ante. Nullam facilisis in tortor
+        non consectetur. Nulla facilisi.<br /><br />
+      </p>
+
+      <p>
+        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
+        cubilia curae; Nunc eget ultricies magna. In arcu felis, placerat nec
+        placerat convallis, euismod vitae dui. Maecenas semper ex eu facilisis
+        sollicitudin. Aenean augue nisi, vulputate sit amet felis sit amet,
+        pretium dignissim lectus. Integer sit amet elit ullamcorper, faucibus
+        nibh a, commodo purus. Nam semper risus sed porta bibendum. Suspendisse
+        a dui in tellus finibus vehicula. Sed sit amet aliquam justo. Donec
+        tristique vel nisi aliquam sodales. Curabitur a commodo lectus, at
+        dapibus tortor. Pellentesque nec odio nec odio pellentesque dignissim in
+        at nisl. Nunc euismod ut elit vel vehicula.<br /><br />
+      </p>
+
+      <p>
+        In vel fringilla diam. Donec a sem semper est rhoncus lacinia at
+        sollicitudin diam. Phasellus pellentesque erat vel vestibulum commodo.
+        Mauris accumsan sed mi nec lacinia. Praesent et mollis dui. Suspendisse
+        quam odio, euismod ut arcu sit amet, vulputate tristique felis. Quisque
+        sed libero porttitor lacus porta aliquet ut nec felis. Nullam pharetra
+        libero posuere eros laoreet, ac accumsan ligula elementum. Nullam et
+        neque vitae leo euismod pharetra. Nullam molestie vel neque id
+        scelerisque. Duis tincidunt facilisis libero, eu ornare massa blandit
+        quis. Nunc ac luctus metus.<br /><br />
+      </p>
+
+      <p>
+        Donec tincidunt metus sed elementum euismod. Nam viverra odio eget nibh
+        condimentum maximus. Morbi tristique sed justo ut porttitor. Vivamus
+        vitae convallis leo, sit amet volutpat est. Sed finibus urna sed tellus
+        pretium, ac venenatis risus varius. Maecenas aliquam, leo at consequat
+        auctor, dolor velit rhoncus enim, non bibendum tortor odio sed metus. Ut
+        diam turpis, scelerisque eu porta sed, hendrerit quis quam. Morbi ac
+        lectus quis sapien accumsan hendrerit. Etiam laoreet consectetur risus,
+        vel semper felis commodo quis. Sed maximus mattis magna, quis consequat
+        tellus cursus egestas. Suspendisse venenatis neque eu porttitor
+        sagittis. Vestibulum eu ipsum semper, efficitur libero nec, suscipit
+        felis.<br /><br />
+      </p>
+
+      <p>
+        Nullam egestas elementum massa at accumsan. Sed molestie, mauris non
+        dapibus rhoncus, ante nisl egestas arcu, id varius tellus nisl
+        scelerisque lectus. Nulla mauris ipsum, accumsan in posuere quis,
+        pellentesque sed massa. Donec ipsum velit, ultrices eget sem luctus,
+        auctor viverra dolor.<br /><br />
+      </p>
+    </div>
+
+    <script>
+      let stars = document.querySelector('#stars');
+      let moon = document.querySelector('#moon');
+      let mountains_behind = document.querySelector('#mountains_behind');
+      let mountains_front = document.querySelector('#mountains_front');
+      let text = document.querySelector('#text');
+      let btn = document.querySelector('.btn');
+      let header = document.querySelector('header');
+
+      window.addEventListener('scroll', function () {
+        let value = window.scrollY;
+        stars.style.left = value * 0.25 + 'px';
+        moon.style.top = value * 1.05 + 'px';
+        mountains_behind.style.top = value * 0.5 + 'px';
+        mountains_front.style.top = value * 0 + 'px';
+        text.style.marginRight = value * 4 + 'px';
+        text.style.marginTop = value * 1.5 + 'px';
+        btn.style.marginTop = value * 1.5 + 'px';
+        header.style.top = value * 0.5 + 'px';
+      });
+    </script>
   </body>
 </html>
