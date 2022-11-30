@@ -15,7 +15,7 @@ const texts = [
 ];
 
 rgbKineticSlider = new rgbKineticSlider({
-  sliderImages: images,
+  slideImages: images,
   itemsTitles: texts,
   backgroundDisplacementSprite: 'https://i.ibb.co/N246LxD/map-9.jpg',
   cursorDisplacementSprite: 'https://i.ibb.co/KrVr51f/displace-circle.png',
@@ -27,7 +27,7 @@ rgbKineticSlider = new rgbKineticSlider({
   swipeDistance: window.innerWidth * 0.4,
   swipeScaleIntensity: 2,
 
-  sliderTransitionDuration: 1,
+  slideTransitionDuration: 1,
   transitionScaleIntensity: 30,
   transitionScaleAmplitude: 160,
 
@@ -35,7 +35,7 @@ rgbKineticSlider = new rgbKineticSlider({
   navElement: '.main-nav',
   imagesRgbEffect: true,
   imagesRgbIntensity: 0.9,
-  navImagesRgbaIntensity: 80,
+  navImagesRgbIntensity: 80,
 
   textsDisplay: true,
   textsSubTitleDisplay: true,
