@@ -28,11 +28,21 @@
           <label for="calls">Calls</label>
           <div class="underline"></div>
         </div>
+
+        <div class="quickBtn">
+          <div class="btn message"><ion-icon name="chatbubble"></ion-icon></div>
+          <div class="btn camera">
+            <div class="pencil"><ion-icon name="pencil"></ion-icon></div>
+            <ion-icon name="camera"></ion-icon>
+          </div>
+          <div class="btn call"><ion-icon name="call"></ion-icon></div>
+        </div>
+
         <div class="content">
           <div class="box chats">
             <div class="data">
               <div class="chatlist">
-                <div class="block unread">
+                <div class="block unread open">
                   <div class="imgbx">
                     <img src="./images/img1.jpg" />
                   </div>
@@ -163,8 +173,169 @@
               </div>
             </div>
           </div>
-          <div class="box status">Status</div>
-          <div class="box calls">Calls</div>
+          <div class="box status">
+            <div class="data">
+              <div class="chatlist">
+                <div class="block">
+                  <div class="imgbx">
+                    <img src="./images/user.jpg" alt="" />
+                  </div>
+                  <div class="plus">+</div>
+                  <div class="details">
+                    <div class="listHead">
+                      <h4>My Status</h4>
+                      <p class="time">15/10/2022</p>
+                    </div>
+                    <div class="message_p">
+                      <p>Tap to add status update</p>
+                    </div>
+                  </div>
+                </div>
+                <label>Recent Updates</label>
+                <div class="block unseen">
+                  <div class="imgbx">
+                    <img src="./images/img4.jpg" />
+                  </div>
+                  <div class="details">
+                    <div class="listHead">
+                      <h4>Olivia</h4>
+                    </div>
+                    <div class="message_p">
+                      <p>Just Now</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="block unseen">
+                  <div class="imgbx">
+                    <img src="./images/img5.jpg" />
+                  </div>
+                  <div class="details">
+                    <div class="listHead">
+                      <h4>Joseph</h4>
+                    </div>
+                    <div class="message_p">
+                      <p>45 minutos ago</p>
+                    </div>
+                  </div>
+                </div>
+                <label>Viewed Updates</label>
+                <div class="block seen">
+                  <div class="imgbx">
+                    <img src="./images/img6.jpg" />
+                  </div>
+                  <div class="details">
+                    <div class="listHead">
+                      <h4>Ashraf</h4>
+                    </div>
+                    <div class="message_p">
+                      <p>Yesterday, 21:16</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="block seen">
+                  <div class="imgbx">
+                    <img src="./images/img7.jpg" />
+                  </div>
+                  <div class="details">
+                    <div class="listHead">
+                      <h4>Diana</h4>
+                    </div>
+                    <div class="message_p">
+                      <p>Yesterday, 05:45</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box calls">
+            <div class="data">
+              <div class="chatlist">
+                <div class="block">
+                  <div class="imgbx green">
+                    <ion-icon name="link-outline"></ion-icon>
+                  </div>
+                  <div class="details">
+                    <div class="listHead">
+                      <h4>Create call link</h4>
+                      <p class="time">10:56</p>
+                    </div>
+                    <div class="message_p">
+                      <p>Share a link for your WhatsApp call</p>
+                    </div>
+                  </div>
+                </div>
+                <label>Recent</label>
+                <div class="block">
+                  <div class="imgbx">
+                    <img src="./images/img7.jpg" />
+                  </div>
+                  <div class="details">
+                    <div class="listHead">
+                      <h4>Diana</h4>
+                    </div>
+                    <div class="message_p incoming">
+                      <p>
+                        <ion-icon name="arrow-down"></ion-icon>28/11/2022, 05:45
+                      </p>
+                    </div>
+                  </div>
+                  <ion-icon name="call" class="call"></ion-icon>
+                </div>
+                <div class="block">
+                  <div class="imgbx">
+                    <img src="./images/img6.jpg" />
+                  </div>
+                  <div class="details">
+                    <div class="listHead">
+                      <h4>Ashraf</h4>
+                    </div>
+                    <div class="message_p outgoing">
+                      <p>
+                        <ion-icon name="arrow-up"></ion-icon>25/11/2022, 21:16
+                      </p>
+                    </div>
+                  </div>
+                  <ion-icon name="call" class="call"></ion-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chatBox">
+        <div class="chatHeader">
+          <div class="imgContent">
+            <ion-icon name="arrow-back-sharp" class="back"></ion-icon>
+            <div class="imgBx">
+              <img src="./images/img1.jpg" />
+            </div>
+            <h3>
+              Alex Smith<br />
+              <span>Online</span>
+            </h3>
+          </div>
+          <div class="actionBtns">
+            <ion-icon name="videocam"></ion-icon>
+            <ion-icon name="call"></ion-icon>
+            <ion-icon name="ellipsis-vertical"></ion-icon>
+          </div>
+        </div>
+        <div class="messageBox">
+          <div class="message">
+            How to make whatsapp clone using html and css? <br />
+            <span class="time">10:56</span>
+          </div>
+          <div class="messageInput">
+            <div class="input">
+              <ion-icon name="happy-outline"></ion-icon>
+              <input type="text" placeholder="Message" />
+              <ion-icon name="attach" class="deg45"></ion-icon>
+              <ion-icon name="camera"></ion-icon>
+            </div>
+
+            <div class="mic"><ion-icon name="mic"></ion-icon></div>
+          </div>
         </div>
       </div>
     </div>
@@ -177,5 +348,17 @@
       nomodule
       src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
     ></script>
+    <script>
+      let back = document.querySelector('.back');
+      let chatBox = document.querySelector('.chatBox');
+      let open = document.querySelector('.open');
+
+      back.onclick = function () {
+        chatBox.classList.add('hide');
+      };
+      open.onclick = function () {
+        chatBox.classList.remove('hide');
+      };
+    </script>
   </body>
 </html>
