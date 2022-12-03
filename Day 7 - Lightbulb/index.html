@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Light Bulb</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="light">
+      <div class="wire"></div>
+      <div class="bulb">
+        <span></span>
+        <span></span>
+      </div>
+      <div class="switch">
+        <div class="btn"></div>
+      </div>
+    </div>
+    <audio
+      id="audio"
+      src="./click.mp3"
+      autoplay="false"
+      autostart="false"
+    ></audio>
+    <script>
+      function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+      }
+      function getHexCode(num) {
+        let string = '#';
+        for (let i = 0; i < num.length; i++) {
+          if (i < num.length) string += num[i];
+          else string += '0';
+        }
+        return string;
+      }
+
+      let btn = document.querySelector('.btn');
+      let body = document.querySelector('body');
+      let audio = document.querySelector('#audio');
+      let r = document.querySelector(':root');
+      let changeColor = true;
+      //let wire = document.querySelector('.wire');
+      //let bulb = document.querySelector('.bulb');
+      if (changeColor)
+        setInterval(function () {
+          let color = getHexCode(getRandomInt(0, 255 * 255 * 255).toString(16));
+          r.style.setProperty('--color', color);
+        }, 200);
+
+      btn.onclick = function () {
+        body.classList.toggle('on');
+        audio.play();
+        //wire.classList.toggle('hide');
+        //bulb.classList.toggle('hide');
+      };
+    </script>
+  </body>
+</html>
