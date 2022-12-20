@@ -36,7 +36,8 @@ main {
 .glass {
   background: white;
   min-height: 80vh;
-  width: 60%;
+  /* width: 60%; */
+  max-width: 1368px;
   background: linear-gradient(
     to right bottom,
     rgba(255, 255, 255, 0.7),
@@ -46,6 +47,17 @@ main {
   z-index: 3;
   backdrop-filter: blur(2rem);
   display: flex;
+}
+
+@media (max-width: 1023px) {
+  .glass {
+    flex-direction: column;
+  }
+}
+@media (max-width: 700px) {
+  .glass .games {
+    margin: 5px;
+  }
 }
 
 .circle1,
@@ -148,6 +160,7 @@ main {
 
 .card {
   display: flex;
+  gap: 2rem;
   /* flex-direction: column; */
   background: linear-gradient(
     to left top,
