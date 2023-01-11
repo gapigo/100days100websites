@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Swiper Card Slider</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="imgBx">
+            <img src="./images/im1.jpg" alt="Image1" />
+          </div>
+          <div class="content">
+            <h2>
+              Linda White <br />
+              <span>Music Engineer</span>
+            </h2>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="imgBx">
+            <img src="./images/im2.jpg" alt="Image1" />
+          </div>
+          <div class="content">
+            <h2>
+              John Doe <br />
+              <span>Photographer</span>
+            </h2>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="imgBx">
+            <img src="./images/im3.jpg" alt="Image1" />
+          </div>
+          <div class="content">
+            <h2>
+              Carla Dias <br />
+              <span>Web Designer</span>
+            </h2>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="imgBx">
+            <img src="./images/im4.jpg" alt="Image1" />
+          </div>
+          <div class="content">
+            <h2>
+              Kanan Dhruv <br />
+              <span>Social Activist</span>
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script>
+      var swiper = new Swiper('.swiper', {
+        effect: 'cube',
+        grabCursor: true,
+        cubeEffect: {
+          shadow: true,
+          slideShadows: true,
+          shadowOffset: 20,
+          shadowScale: 0.94,
+        },
+      });
+    </script>
+  </body>
+</html>
