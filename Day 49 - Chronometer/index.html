@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chronometer</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="time">
+        <div class="minutes">00</div>
+        :
+        <div class="seconds">00</div>
+        :
+        <div class="miliseconds">000</div>
+      </div>
+      <div class="buttons">
+        <div class="playstop">
+          <h3 class="title">Play</h3>
+          <h5 class="subtitle">space bar</h5>
+        </div>
+        <div class="reset">
+          <h3 class="title">Reset</h3>
+          <h5 class="subtitle">esc</h5>
+        </div>
+      </div>
+    </div>
+    <script>
+      const minutes = document.querySelector('.minutes');
+      const seconds = document.querySelector('.seconds');
+      const miliseconds = document.querySelector('.miliseconds');
+      let running = false;
+      const playstop = document.querySelector('.playstop');
+      const reset = document.querySelector('.reset');
+      let time = 0;
+      let interval1;
+      let interval2;
+
+      function updateTime() {
+        let min = Math.floor(time / 60000);
+        let sec = Math.floor(time / 1000) % 60;
+        let mil = time % 1000;
+        miliseconds.innerText =
+          mil < 100 ? (mil < 10 ? '00' + mil : '0' + mil) : mil;
+        minutes.innerText = min < 10 ? '0' + min : min;
+        seconds.innerText = sec < 10 ? '0' + sec : sec;
+      }
+      playstop.onclick = function (event) {
+        this.classList.toggle('played');
+        if (!running) {
+          interval1 = setInterval(() => (time += 4), 1);
+          interval2 = setInterval(updateTime, 5);
+          playstop.querySelector('.title').innerText = 'Pause';
+          running = true;
+        } else {
+          clearInterval(interval1);
+          clearInterval(interval2);
+          running = false;
+          playstop.querySelector('.title').innerText = 'Play';
+        }
+      };
+      reset.onclick = function (event) {
+        if (running) {
+          playstop.click();
+        }
+        time = 0;
+        updateTime();
+      };
+      document.body.onkeyup = function (e) {
+        if (e.keyCode == 32) {
+          playstop.click();
+        }
+        if (e.keyCode == 27) reset.click();
+      };
+    </script>
+  </body>
+</html>
