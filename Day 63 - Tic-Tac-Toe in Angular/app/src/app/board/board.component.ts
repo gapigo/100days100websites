@@ -6,11 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit {
-  squares?: any[] | null;
+  squares?: ('X' | 'O')[];
   xIsNext?: boolean | null;
   winner?: string | null;
+
   constructor() {}
-  ngOnInit(): void {
+
+  ngOnInit() {
     this.newGame();
   }
 
@@ -25,8 +27,8 @@ export class BoardComponent implements OnInit {
   }
 
   makeMove(idx: number) {
-    if (!this.squares ? [idx] : null) {
-      this.squares?.splice(idx, 1, this.player);
+    if (!this.squares![idx]) {
+      this.squares!.splice(idx, 1, this.player);
       this.xIsNext = !this.xIsNext;
     }
 
@@ -47,13 +49,11 @@ export class BoardComponent implements OnInit {
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (
-        this.squares
-          ? this.squares[a] &&
-            this.squares[a] === this.squares[b] &&
-            this.squares[a] === this.squares[c]
-          : false
+        this.squares![a] &&
+        this.squares![a] === this.squares![b] &&
+        this.squares![a] === this.squares![c]
       ) {
-        return this.squares ? this.squares[a] : null;
+        return this.squares![a];
       }
     }
     return null;
