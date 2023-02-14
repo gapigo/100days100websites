@@ -1,14 +1,27 @@
 <template>
-  <hello-world />
+  <v-app>
+    <Navbar class="index" style="position: relative" />
+    <Dashboard />
+    <Footer />
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from '../components/HelloWorld';
+import Navbar from '../components/Navbar';
+import Dashboard from '../components/Dashboard';
+import Footer from '../components/Footer';
 
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld,
+    Navbar,
+    Dashboard,
+    Footer,
   },
 };
 </script>
+<style>
+.index {
+  z-index: 9999;
+}
+</style>
