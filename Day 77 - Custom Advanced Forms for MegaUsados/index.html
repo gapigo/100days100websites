@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Advanced Forms</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+      integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div class="tcontainer">
+      <div class="box order-0" id="box-custom">
+        <div class="box-header"></div>
+        <div class="custom-box">
+          <div class="select-box">
+            <div class="select-box__current" tabindex="1">
+              <div class="select-box__value">
+                <input
+                  class="select-box__input"
+                  type="radio"
+                  id="0"
+                  value="1"
+                  name="Ben"
+                  checked="checked"
+                />
+                <p class="select-box__input-text">Produto</p>
+              </div>
+              <div class="select-box__value">
+                <input
+                  class="select-box__input"
+                  type="radio"
+                  id="1"
+                  value="2"
+                  name="Ben"
+                />
+                <p class="select-box__input-text">Blog</p>
+              </div>
+              <div class="select-box__value">
+                <input
+                  class="select-box__input"
+                  type="radio"
+                  id="2"
+                  value="3"
+                  name="Ben"
+                />
+                <p class="select-box__input-text">Consertos</p>
+              </div>
+              <div class="select-box__value">
+                <input
+                  class="select-box__input"
+                  type="radio"
+                  id="3"
+                  value="4"
+                  name="Ben"
+                />
+                <p class="select-box__input-text">Desenvolvimento</p>
+              </div>
+              <div class="select-box__value">
+                <input
+                  class="select-box__input"
+                  type="radio"
+                  id="4"
+                  value="5"
+                  name="Ben"
+                />
+                <p class="select-box__input-text">Fazer anúncio</p>
+              </div>
+              <div class="select-box__value">
+                <input
+                  class="select-box__input"
+                  type="radio"
+                  id="5"
+                  value="6"
+                  name="Ben"
+                />
+                <p class="select-box__input-text">Imóvel</p>
+              </div>
+              <img
+                class="select-box__icon"
+                src="http://cdn.onlinewebfonts.com/svg/img_295694.svg"
+                alt="Arrow Icon"
+                aria-hidden="true"
+              />
+            </div>
+            <ul class="select-box__list">
+              <li>
+                <label
+                  class="select-box__option"
+                  for="0"
+                  aria-hidden="aria-hidden"
+                  >Produto</label
+                >
+              </li>
+              <li>
+                <label
+                  class="select-box__option"
+                  for="1"
+                  aria-hidden="aria-hidden"
+                  >Blog</label
+                >
+              </li>
+              <li>
+                <label
+                  class="select-box__option"
+                  for="2"
+                  aria-hidden="aria-hidden"
+                  >Consertos</label
+                >
+              </li>
+              <li>
+                <label
+                  class="select-box__option"
+                  for="3"
+                  aria-hidden="aria-hidden"
+                  >Desenvolvimento</label
+                >
+              </li>
+              <li>
+                <label
+                  class="select-box__option"
+                  for="4"
+                  aria-hidden="aria-hidden"
+                  >Fazer Anúncio</label
+                >
+              </li>
+              <li>
+                <label
+                  class="select-box__option"
+                  for="4"
+                  aria-hidden="aria-hidden"
+                  >Imoveis</label
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="etiquetas">
+            <h3>Etiquetas</h3>
+            <div class="etiqueta">
+              <input type="text" class="novaEtiqueta" old="" />
+              <i class="fa-solid fa-trash"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      let etiquetas = document.querySelector('.etiquetas');
+      function eventoEtiqueta(e) {
+        if (e.type == 'keydown' && e.key != 'Enter') return;
+        if (e.target.getAttribute('old') == '' && e.target.value != '') {
+          let novaEtiqueta = etiquetas
+            .querySelector('input')
+            .parentElement.cloneNode(true);
+
+          novaEtiqueta.querySelector('input').value = '';
+          novaEtiqueta.querySelector('input').setAttribute('old', '');
+          novaEtiqueta.onchange = eventoEtiqueta;
+          novaEtiqueta.onkeydown = eventoEtiqueta;
+
+          novaEtiqueta.querySelector('i').classList.remove('delete-icon');
+          e.target.parentElement.querySelector('i').onclick = () => {
+            if (etiquetas.querySelectorAll('.etiqueta').length == 2) {
+              etiquetas.querySelectorAll('.etiqueta').forEach((e) => {
+                e.querySelector('i').classList.remove('delete-icon');
+              });
+            }
+            e.target.parentElement.remove();
+          };
+
+          e.target.parentElement
+            .querySelector('i')
+            .classList.add('delete-icon');
+
+          e.target.setAttribute('old', e.target.value);
+          etiquetas.appendChild(novaEtiqueta);
+          novaEtiqueta.querySelector('input').focus();
+        }
+        if (
+          e.target.value == '' &&
+          etiquetas.querySelectorAll('.etiqueta').length > 1
+        ) {
+          e.target.parentElement.remove();
+        }
+      }
+      let firstInput = etiquetas.querySelector('input');
+      firstInput.onchange = eventoEtiqueta;
+      firstInput.onkeydown = eventoEtiqueta;
+      // etiquetas.querySelectorAll('input').forEach((e) => {});
+    </script>
+  </body>
+</html>
