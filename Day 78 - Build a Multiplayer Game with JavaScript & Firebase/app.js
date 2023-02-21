@@ -82,13 +82,71 @@ function isSolid(x, y) {
   );
 }
 
+function getRandomSafeSpot() {
+  // We don't look things up by key here, so just return an x/y
+  return randomFromArray([
+    { x: 1, y: 4 },
+    { x: 2, y: 4 },
+    { x: 1, y: 5 },
+    { x: 2, y: 6 },
+    { x: 2, y: 8 },
+    { x: 2, y: 9 },
+    { x: 4, y: 8 },
+    { x: 5, y: 5 },
+    { x: 5, y: 8 },
+    { x: 5, y: 10 },
+    { x: 5, y: 11 },
+    { x: 11, y: 7 },
+    { x: 12, y: 7 },
+    { x: 13, y: 6 },
+    { x: 13, y: 7 },
+    { x: 13, y: 8 },
+    { x: 7, y: 6 },
+    { x: 7, y: 7 },
+    { x: 7, y: 8 },
+    { x: 8, y: 8 },
+    { x: 10, y: 8 },
+    { x: 8, y: 8 },
+    { x: 11, y: 4 },
+  ]);
+}
+
 (function () {
   let playerId;
   let playerRef;
   let players = {};
   let playerElements = {};
+  let coins = {};
+  let coinElements = {};
 
   const gameContainer = document.querySelector('.game-container');
+  const playerNameInput = document.querySelector('#player-name');
+  const playerColorButton = document.querySelector('#player-color');
+
+  function placeCoin() {
+    const { x, y } = getRandomSafeSpot();
+    const coinRef = firebase.database().ref(`coins/${getKeyString(x, y)}`);
+    coinRef.set({
+      x,
+      y,
+    });
+
+    const coinTimeouts = [2000, 3000, 4000, 5000];
+    setTimeout(() => {
+      placeCoin();
+    }, randomFromArray(coinTimeouts));
+  }
+
+  function attemptGrabCoin(x, y) {
+    const key = getKeyString(x, y);
+    if (coins[key]) {
+      // Remove this key from data, then uptick Player's coin count
+      firebase.database().ref(`coins/${key}`).remove();
+      playerRef.update({
+        coins: players[playerId].coins + 1,
+      });
+    }
+  }
 
   function handleArrowPress(xChange = 0, yChange = 0) {
     const newX = players[playerId].x + xChange;
@@ -104,6 +162,7 @@ function isSolid(x, y) {
         players[playerId].direction = 'left';
       }
       playerRef.set(players[playerId]);
+      attemptGrabCoin(newX, newY);
     }
   }
 
@@ -169,6 +228,60 @@ function isSolid(x, y) {
       gameContainer.removeChild(playerElements[removedKey]);
       delete playerElements[removedKey];
     });
+
+    allCoinsRef.on('value', (snapshot) => {
+      coins = snapshot.val() || {};
+    });
+
+    allCoinsRef.on('child_added', (snapshot) => {
+      console.log('PINTO');
+      const coin = snapshot.val();
+      const key = getKeyString(coin.x, coin.y);
+      coins[key] = true;
+
+      const coinElement = document.createElement('div');
+      coinElement.classList.add('Coin', 'grid-cell');
+      coinElement.innerHTML = `
+        <div class="Coin_shadow grid-cell"></div>
+        <div class="Coin_sprite grid-cell"></div>
+      `;
+
+      // Position the Element
+      const left = 16 * coin.x + 'px';
+      const top = 16 * coin.y - 4 + 'px';
+      coinElement.style.transform = `translate3d(${left}, ${top}, 0)`;
+
+      // Keep a reference for removal later and add to DOM
+      coinElements[key] = coinElement;
+      gameContainer.appendChild(coinElement);
+    });
+
+    allCoinsRef.on('child_removed', (snapshot) => {
+      const { x, y } = snapshot.val();
+      const keyToRemove = getKeyString(x, y);
+      gameContainer.removeChild(coinElements[keyToRemove]);
+      delete coinElements[keyToRemove];
+    });
+
+    playerNameInput.addEventListener('change', (e) => {
+      const newName = e.target.value || createName();
+      playerNameInput.value = newName;
+      playerRef.update({
+        name: newName,
+      });
+    });
+
+    playerColorButton.addEventListener('click', () => {
+      const mySkinIndex = playerColors.indexOf(players[playerId].color);
+      const nextColor = playerColors[mySkinIndex + 1] || playerColors[0];
+
+      playerRef.update({
+        color: nextColor,
+      });
+    });
+
+    // Place my first coin
+    placeCoin();
   }
 
   firebase.auth().onAuthStateChanged((user) => {
@@ -179,14 +292,16 @@ function isSolid(x, y) {
       playerRef = firebase.database().ref(`players/${playerId}`);
 
       const name = createName();
+      playerNameInput.value = name;
 
+      const { x, y } = getRandomSafeSpot();
       playerRef.set({
         id: playerId,
         name,
         direction: 'right',
         color: randomFromArray(playerColors),
-        x: 3,
-        y: 10,
+        x,
+        y,
         coins: 0,
       });
 
