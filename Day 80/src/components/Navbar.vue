@@ -14,6 +14,7 @@
 
 <style>
 .navbar {
+  z-index: 1000;
   position: fixed;
   top: 0;
   width: 100vw;

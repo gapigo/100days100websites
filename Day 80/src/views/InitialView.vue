@@ -59,24 +59,44 @@
       <div class="game" :class="{ hidden: editando }">
         <div class="gameTop">
           <span class="currentPlayer"
-            >Vez de: <span class="currentName">Guto</span>
+            >Vez de:
+            <span
+              class="currentName"
+              v-if="jogadorAtual && jogadorAtual.atual"
+              >{{ jogadorAtual.atual.apelido }}</span
+            >
           </span>
           <div class="buttons">
             <button @click="edit" class="edit">Editar</button>
-            <button v-if="isUserHost() && estadoJogando" class="restart">
-              Recomeçar
+            <button
+              @click="parar"
+              v-if="isUserHost() && estadoJogando"
+              class="restart"
+            >
+              Parar
             </button>
-            <button v-if="isUserHost() && !estadoJogando" class="start">
+            <button
+              @click="comecar"
+              v-if="isUserHost() && !estadoJogando"
+              class="start"
+            >
               Começar
             </button>
-            <button v-if="isUserHost() && estadoJogando" class="next">
+            <button
+              @click="proximo"
+              v-if="isUserHost() && estadoJogando"
+              class="next"
+            >
               Proximo
             </button>
           </div>
         </div>
-        <div class="current">
-          <div class="questionWrap choosing">
-            <div class="question" questionCode="">
+        <div class="current" v-if="jogadorAtual">
+          <div class="questionWrap" :class="jogadorAtual.estadoCampo1">
+            <div class="clicar" @click="selecionar"></div>
+            <div class="question" :questionCode="jogadorAtual.campo1.tag">
+              <!-- <div class="questionWrap" :class="jogadorAtualObj.estadoCampo1"> -->
+              <!-- <div class="question"> -->
               <button>
                 <!-- <i class="fa-solid fa-question"></i> -->
                 <i class="fa-sharp fa-solid fa-thumbtack"></i>
@@ -86,25 +106,28 @@
               </button>
               <div class="text">
                 <span class="numeracao">Fato 1</span>
-                <span
-                  >Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed
-                  ipsam provident ipsum incidunt rerum porro architecto, alias
-                  explicabo quasi aperiam minima tenetur eligendi deleniti.
-                  Numquam omnis voluptas dolor inventore assumenda!</span
-                >
+                <span>{{ jogadorAtual.campo1.frase }}</span>
               </div>
             </div>
             <div class="whoChose">
               <h2 class="achaQue">Acha que é mentira</h2>
-              <div class="div">
-                <span class="chooser">Biel</span>
-                <span class="chooser">Tony</span>
-                <span class="chooser">Guto</span>
+              <div
+                class="div"
+                v-if="jogadorAtual.escolhas && jogadorAtual.escolhas.campo1"
+              >
+                <span
+                  class="chooser"
+                  v-for="escolhedor in jogadorAtual.escolhas.campo1"
+                  >{{ escolhedor }}</span
+                >
               </div>
             </div>
           </div>
-          <div class="questionWrap lie">
-            <div class="question" questionCode="">
+          <div class="questionWrap" :class="jogadorAtual.estadoCampo2">
+            <div class="clicar" @click="selecionar"></div>
+            <div class="question" :questionCode="jogadorAtual.campo2.tag">
+              <!-- <div class="questionWrap" :class="jogadorAtualObj.estadoCampo2"> -->
+              <!-- <div class="question"> -->
               <button>
                 <!-- <i class="fa-solid fa-question"></i> -->
                 <i class="fa-sharp fa-solid fa-thumbtack"></i>
@@ -113,26 +136,29 @@
                 <i class="fa-solid fa-angles-right"></i>
               </button>
               <div class="text">
-                <span class="numeracao">Fato 1</span>
-                <span
-                  >Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed
-                  ipsam provident ipsum incidunt rerum porro architecto, alias
-                  explicabo quasi aperiam minima tenetur eligendi deleniti.
-                  Numquam omnis voluptas dolor inventore assumenda!</span
-                >
+                <span class="numeracao">Fato 2</span>
+                <span>{{ jogadorAtual.campo2.frase }}</span>
               </div>
             </div>
             <div class="whoChose">
               <h2 class="achaQue">Acha que é mentira</h2>
-              <div class="div">
-                <span class="chooser">Biel</span>
-                <span class="chooser">Tony</span>
-                <span class="chooser">Guto</span>
+              <div
+                class="div"
+                v-if="jogadorAtual.escolhas && jogadorAtual.escolhas.campo2"
+              >
+                <span
+                  class="chooser"
+                  v-for="escolhedor in jogadorAtual.escolhas.campo2"
+                  >{{ escolhedor }}</span
+                >
               </div>
             </div>
           </div>
-          <div class="questionWrap marked">
-            <div class="question" questionCode="">
+          <div class="questionWrap" :class="jogadorAtual.estadoCampo3">
+            <div class="clicar" @click="selecionar"></div>
+            <div class="question" :questionCode="jogadorAtual.campo3.tag">
+              <!-- <div class="questionWrap" :class="jogadorAtualObj.estadoCampo3"> -->
+              <!-- <div class="question"> -->
               <button>
                 <!-- <i class="fa-solid fa-question"></i> -->
                 <i class="fa-sharp fa-solid fa-thumbtack"></i>
@@ -141,49 +167,21 @@
                 <i class="fa-solid fa-angles-right"></i>
               </button>
               <div class="text">
-                <span class="numeracao">Fato 1</span>
-                <span
-                  >Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed
-                  ipsam provident ipsum incidunt rerum porro architecto, alias
-                  explicabo quasi aperiam minima tenetur eligendi deleniti.
-                  Numquam omnis voluptas dolor inventore assumenda!</span
-                >
+                <span class="numeracao">Fato 3</span>
+                <span>{{ jogadorAtual.campo3.frase }}</span>
               </div>
             </div>
             <div class="whoChose">
               <h2 class="achaQue">Acha que é mentira</h2>
-              <div class="div">
-                <span class="chooser">Biel</span>
-                <span class="chooser">Tony</span>
-                <span class="chooser">Guto</span>
-              </div>
-            </div>
-          </div>
-          <div class="questionWrap truth">
-            <div class="question" questionCode="">
-              <button>
-                <!-- <i class="fa-solid fa-question"></i> -->
-                <i class="fa-sharp fa-solid fa-thumbtack"></i>
-                <i class="fa-solid fa-square-check"></i>
-                <i class="fa-solid fa-square-xmark"></i>
-                <i class="fa-solid fa-angles-right"></i>
-              </button>
-              <div class="text">
-                <span class="numeracao">Fato 1</span>
+              <div
+                class="div"
+                v-if="jogadorAtual.escolhas && jogadorAtual.escolhas.campo3"
+              >
                 <span
-                  >Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed
-                  ipsam provident ipsum incidunt rerum porro architecto, alias
-                  explicabo quasi aperiam minima tenetur eligendi deleniti.
-                  Numquam omnis voluptas dolor inventore assumenda!</span
+                  class="chooser"
+                  v-for="escolhedor in jogadorAtual.escolhas.campo3"
+                  >{{ escolhedor }}</span
                 >
-              </div>
-            </div>
-            <div class="whoChose">
-              <h2 class="achaQue">Acha que é mentira</h2>
-              <div class="div">
-                <span class="chooser">Biel</span>
-                <span class="chooser">Tony</span>
-                <span class="chooser">Guto</span>
               </div>
             </div>
           </div>
@@ -240,6 +238,9 @@ const verdade2 = ref('');
 const vPlayerObj = ref({});
 const vPlayerId = ref(false);
 const jogadoresPontos = ref([]);
+const playersRefGlobal = ref([]);
+const computaJogo = ref({});
+const jogadorAtual = ref(null);
 
 // const user = ref(null);
 // const playerRef = ref(null);
@@ -298,6 +299,58 @@ async function updatePlayer() {
     });
 }
 
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+function retornaEscolhas(ordemObj) {
+  let resObj = {};
+  resObj['campo1'] = false;
+  resObj['campo2'] = false;
+  resObj['campo3'] = false;
+  return resObj;
+}
+
+function getRenderedEscolhasObj(jsonEscolhas) {
+  // let escolhas = {
+  //   t1: {
+  //     rai: true,
+  //     guto: false,
+  //   },
+  //   t2: {
+  //     rai: false,
+  //     guto: true,
+  //   },
+  // };
+  // return [campo1: ['rai'], campo2:  ['guto']]
+
+  let resJson = {};
+
+  for (let key in jsonEscolhas) {
+    let escolhaArray = [];
+    for (let jogadorId in jsonEscolhas[key]) {
+      if (jsonEscolhas[key][jogadorId]) {
+        escolhaArray.push(jogadorId);
+      }
+    }
+    resJson[key] = escolhaArray;
+  }
+  console.log('resJson');
+  console.log(resJson);
+  return resJson;
+}
+
+function getOrdemEmbaralho() {
+  // return '2 1 3'
+  let a = [2, 1, 3];
+  a = shuffleArray(a);
+  return a.join(' ');
+}
+
 export default {
   name: 'InitialView',
   components: {},
@@ -312,8 +365,96 @@ export default {
     edit() {
       editando.value = true;
     },
+    comecar() {
+      estadoJogando.value = true;
+      const players = playersRefGlobal.status;
+      let computaJogoObj = {};
+
+      let ordem = [];
+      let indexTag = 0;
+      for (let playerId in players) {
+        ordem.push({
+          id: playerId,
+          apelido: players[playerId].apelido,
+          mentira: { frase: players[playerId].mentira, tag: `t${indexTag++}` },
+          verdade1: {
+            frase: players[playerId].verdade1,
+            tag: `t${indexTag++}`,
+          },
+          verdade2: {
+            frase: players[playerId].verdade2,
+            tag: `t${indexTag++}`,
+          },
+        });
+      }
+
+      ordem = shuffleArray(ordem);
+
+      computaJogoObj['ordem'] = ordem;
+      computaJogoObj['atual'] = {
+        index: 0,
+        id: ordem[0].id,
+        apelido: ordem[0].apelido,
+      };
+      computaJogoObj['ganhador'] = {
+        ganhador1: '',
+        ganhador2: '',
+      };
+
+      computaJogo.value = computaJogoObj;
+
+      let atualObj = {};
+      atualObj['mentira'] = ordem[0].mentira;
+      atualObj['verdade1'] = ordem[0].verdade1;
+      atualObj['verdade2'] = ordem[0].verdade2;
+      atualObj['tagsEmbaralhadas'] = getOrdemEmbaralho();
+      atualObj['jogador'] = ordem[0].apelido;
+      atualObj['escolhas'] = retornaEscolhas(ordem[0]);
+
+      firebaseSet(firebaseRef(db, `atual/`), atualObj);
+    },
+    proximo() {
+      // estadoJogando.value = true;
+      let estadoJogo = computaJogo.value;
+      let atual = estadoJogo.atual.index;
+
+      // todo DAR PONTOS E MOSTRAR CORRETA!
+
+      if (atual + 1 === estadoJogo.ordem) {
+        // finaliza jogo
+        return;
+      }
+      atual++;
+      estadoJogo['atual'] = {
+        index: atual,
+        id: estadoJogo.ordem[index].id,
+        apelido: estadoJogo.ordem[index].apelido,
+      };
+      setTimeout(() => (computaJogo.value = estadoJogo), 5000);
+    },
+    parar() {
+      // estadoJogando.value = true;
+    },
     isUserHost() {
       return vPlayerObj.value.host;
+    },
+    async selecionar(e) {
+      let tagCode = e.target.parentElement
+        .querySelector('.question')
+        .getAttribute('questionCode');
+      let tagCodes = [
+        jogadorAtual.value.campo1.tag,
+        jogadorAtual.value.campo2.tag,
+        jogadorAtual.value.campo3.tag,
+      ];
+      let apelido = vPlayerObj.value.apelido;
+      let escolhasObj = {};
+      escolhasObj = {};
+      for (let tc of tagCodes) {
+        escolhasObj[`${tc}`] = tc == tagCode ? true : false;
+      }
+      firebaseSet(firebaseRef(db, `atual/escolhas/${apelido}`), escolhasObj);
+      return;
     },
   },
   setup() {
@@ -332,6 +473,7 @@ export default {
       estadoJogando,
       editando,
       jogadoresPontos,
+      jogadorAtual,
     };
   },
   beforeMount() {
@@ -344,7 +486,7 @@ export default {
         if (snapshot.val()) {
           onValue(firebaseRef(db, `players/`), async (snapshot) => {
             const players = snapshot.val();
-
+            playersRefGlobal.status = snapshot.val();
             let playersObject = {};
             let oldPontos = (
               await firebaseGet(query(firebaseRef(db, `pontos/`)))
@@ -377,8 +519,41 @@ export default {
         console.log('onPontos2');
       });
 
-      onValue(firebaseRef(db, `atual/`), (snapshot) => {
-        console.log('onAtual');
+      onValue(firebaseRef(db, `atual/`), async (snapshot) => {
+        if (snapshot.val() == {} || snapshot.val() == null || !snapshot.val())
+          return;
+        let jogadorAtualVal = snapshot.val();
+        let arrayEmbaralhado = jogadorAtualVal.tagsEmbaralhadas.split(' ');
+        function getFato(num) {
+          if (num == 1) return jogadorAtualVal.mentira;
+          if (num == 2) return jogadorAtualVal.verdade1;
+          return jogadorAtualVal.verdade2;
+        }
+        let estados = (
+          await firebaseGet(
+            query(firebaseRef(db, `atual/escolhas/${vPlayerObj.apelido}`))
+          )
+        );
+        function getEstado(tag) {
+          if (!estados && estados.val()) {
+            return 'choosing';
+          }
+          
+          estados = estados.val();
+          console.log('getEstado');
+          console.log(estados);
+        }
+        let jogadorAtualObj = {
+          campo1: getFato(arrayEmbaralhado[0]),
+          campo2: getFato(arrayEmbaralhado[1]),
+          campo3: getFato(arrayEmbaralhado[2]),
+          estadoCampo1: getEstado(getFato(arrayEmbaralhado[0]).tag),
+          estadoCampo2: getEstado(getFato(arrayEmbaralhado[1]).tag),
+          estadoCampo3: getEstado(getFato(arrayEmbaralhado[2]).tag),
+          apelido: jogadorAtualVal.jogador,
+          escolhas: getRenderedEscolhasObj(jogadorAtualVal.escolhas),
+        };
+        jogadorAtual.value = jogadorAtualObj;
       });
     }
 
@@ -542,6 +717,7 @@ form button:hover {
 }
 
 .questionWrap {
+  position: relative;
   display: flex;
   justify-content: space-between;
   padding: 1rem;
@@ -566,7 +742,7 @@ form button:hover {
 }
 
 .question .text {
-  /* width: 100%; */
+  width: 100%;
   border: 1px solid #44165f;
   padding: 8px;
   display: flex;
@@ -750,5 +926,15 @@ form button:hover {
 
 .hidden {
   display: none;
+}
+
+.clicar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+  background: transparent;
 }
 </style>
