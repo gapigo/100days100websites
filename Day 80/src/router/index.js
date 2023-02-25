@@ -8,11 +8,11 @@ const routes = [
     name: 'Home',
     component: InitialView,
   },
-  {
-    path: '/guessing',
-    name: 'Guessing',
-    component: GuessingView,
-  },
+  // {
+  //   path: '/game',
+  //   name: 'Guessing',
+  //   component: GuessingView,
+  // },
 ];
 
 const router = createRouter({
