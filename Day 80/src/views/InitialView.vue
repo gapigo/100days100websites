@@ -13,7 +13,7 @@
       <h2 class="emoji">🥳🎊🎆</h2>
     </div>
     <div class="container" :class="{ blur: estadoFimDeJogo }">
-      <form @submit.prevent="onSubmit">
+      <form @submit.prevent="onSubmit" :class="{ hidden: !editando }">
         <label for="apelido">
           <span>Apelido</span>
           <input
@@ -56,14 +56,22 @@
         </label>
         <button>Continuar</button>
       </form>
-      <div class="game">
+      <div class="game" :class="{ hidden: editando }">
         <div class="gameTop">
           <span class="currentPlayer"
             >Vez de: <span class="currentName">Guto</span>
           </span>
           <div class="buttons">
-            <button class="edit">Editar</button>
-            <button class="restart">Recomeçar</button>
+            <button @click="edit" class="edit">Editar</button>
+            <button v-if="isUserHost() && estadoJogando" class="restart">
+              Recomeçar
+            </button>
+            <button v-if="isUserHost() && !estadoJogando" class="start">
+              Começar
+            </button>
+            <button v-if="isUserHost() && estadoJogando" class="next">
+              Proximo
+            </button>
           </div>
         </div>
         <div class="current">
@@ -181,16 +189,21 @@
           </div>
         </div>
         <div class="players">
-          <div class="playerWrap">
-            <h2>Name</h2>
-            <div class="points">
-              <div class="detetive">
-                <h2>Detetive <i class="fa-solid fa-magnifying-glass"></i></h2>
-                <span>0</span>
-              </div>
-              <div class="misterioso">
-                <h2>Misterioso <i class="fa-solid fa-user-secret"></i></h2>
-                <span>0</span>
+          <div v-for="jogador in jogadoresPontos" class="vPlayerWrap">
+            <div
+              class="playerWrap"
+              v-if="jogador.apelido !== null && jogador.apelido !== ''"
+            >
+              <h2>{{ jogador.apelido }}</h2>
+              <div class="points">
+                <div class="detetive">
+                  <h2>Detetive <i class="fa-solid fa-magnifying-glass"></i></h2>
+                  <span>{{ jogador.detetive }}</span>
+                </div>
+                <div class="misterioso">
+                  <h2>Misterioso <i class="fa-solid fa-user-secret"></i></h2>
+                  <span>{{ jogador.misterio }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -217,12 +230,26 @@ import {
 } from 'firebase/database';
 import { db } from '../main.js';
 
+const editando = ref(true);
+const estadoFimDeJogo = ref(false);
+const estadoJogando = ref(false);
+const apelido = ref('');
+const mentira = ref('');
+const verdade1 = ref('');
+const verdade2 = ref('');
+const vPlayerObj = ref({});
+const vPlayerId = ref(false);
+const jogadoresPontos = ref([]);
+
+// const user = ref(null);
+// const playerRef = ref(null);
+// const player = ref(null);
+// const allPlayersRef = ref(null);
+// const allPlayers = ref(null);
 let user;
 
 function createHost(playerId) {
   const host = firebaseRef(db, `host/`);
-  console.log('playerId');
-  console.log(playerId);
   firebaseSet(host, playerId);
 }
 
@@ -236,27 +263,37 @@ async function checkIfActualHostExists() {
 }
 
 async function setHost(playerId) {
-  if (!(await checkIfActualHostExists())) return true;
+  if (!(await checkIfActualHostExists())) {
+    console.log('playerId');
+    console.log(playerId);
+    return true;
+  }
   const playerRef = firebaseRef(db, `players/${playerId}`);
   let player = await firebaseGet(query(playerRef));
-  if (player && player.val().host) return true;
+  if (player.val() && player.val().host) {
+    console.log('playerId');
+    console.log(playerId);
+    return true;
+  }
   return false;
 }
 
 async function updatePlayer() {
   const playerId = user.uid;
   const playerRef = firebaseRef(db, `players/${playerId}`);
-  return firebaseSet(playerRef, {
+  const playerObj = {
     id: playerId,
     apelido: apelido.value,
     verdade1: verdade1.value,
     verdade2: verdade2.value,
     mentira: mentira.value,
     host: await setHost(playerId),
-  })
+  };
+  vPlayerObj.value = playerObj;
+  return firebaseSet(playerRef, playerObj)
     .then((player) => player)
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       return {};
     });
 }
@@ -267,24 +304,89 @@ export default {
   methods: {
     onSubmit() {
       console.log(apelido.value, verdade1.value, verdade2.value, mentira.value);
-      // const playerRef = firebaseRef(db, `players/${user.uid}`);
+      console.log('onSubmit');
+      editando.value = false;
       updatePlayer();
+      console.log(this.isUserHost());
     },
+    edit() {
+      editando.value = true;
+    },
+    isUserHost() {
+      return vPlayerObj.value.host;
+    },
+  },
+  setup() {
+    onMounted(() => {
+      console.log('EDITA');
+      // editando.value = false;
+    });
   },
   data() {
     return {
-      apelido: '',
-      mentira: '',
-      verdade1: '',
-      verdade2: '',
-      estadoFimDeJogo: false,
+      apelido,
+      mentira,
+      verdade1,
+      verdade2,
+      estadoFimDeJogo,
+      estadoJogando,
+      editando,
+      jogadoresPontos,
     };
   },
   beforeMount() {
+    function setListeners() {
+      console.log(`players/${user.uid}/host/`);
+      onValue(firebaseRef(db, `players/${user.uid}/host/`), (snapshot) => {
+        vPlayerObj.value.host = snapshot.val();
+
+        // Checar jogadores, pontos
+        if (snapshot.val()) {
+          onValue(firebaseRef(db, `players/`), async (snapshot) => {
+            const players = snapshot.val();
+
+            let playersObject = {};
+            let oldPontos = (
+              await firebaseGet(query(firebaseRef(db, `pontos/`)))
+            ).val();
+            for (let playerId in players) {
+              console.log('batata');
+              // console.log(oldPontos.playerId);
+              playersObject[playerId] = {
+                apelido: players[playerId].apelido,
+                detetive: oldPontos
+                  ? oldPontos.playerId
+                    ? oldPontos.playerId.detetive || 0
+                    : 0
+                  : 0,
+                misterio: oldPontos
+                  ? oldPontos.playerId
+                    ? oldPontos.playerId.misterio || 0
+                    : 0
+                  : 0,
+              };
+            }
+            firebaseSet(firebaseRef(db, `pontos/`), playersObject);
+          });
+        }
+      });
+
+      onValue(firebaseRef(db, `pontos/`), (snapshot) => {
+        console.log('onPontos');
+        jogadoresPontos.value = snapshot.val();
+        console.log('onPontos2');
+      });
+
+      onValue(firebaseRef(db, `atual/`), (snapshot) => {
+        console.log('onAtual');
+      });
+    }
+
     const auth = getAuth();
     onAuthStateChanged(auth, async (u) => {
       if (u) {
         user = u;
+        vPlayerId.value = user.uid;
         await updatePlayer();
         const playerRef = firebaseRef(db, `players/${user.uid}`);
         const allPlayersRef = firebaseRef(db, `players/`);
@@ -303,6 +405,8 @@ export default {
           }
         });
         onDisconnect(playerRef).remove();
+        setListeners();
+        console.log('end initial firebase setup');
       } else {
         // error on login
       }
@@ -511,6 +615,7 @@ form button:hover {
 .questionWrap.lie {
   color: #b91d1d;
   opacity: 0.4;
+  user-select: none;
 }
 
 .questionWrap.lie .text {
