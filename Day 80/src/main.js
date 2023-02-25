@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import './style.css';
-
+import { getDatabase } from 'firebase/database';
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig = {
@@ -17,7 +17,10 @@ const firebaseConfig = {
 };
 
 initializeApp(firebaseConfig);
+const db = getDatabase();
 
 console.log('entrou aqui');
 
 createApp(App).use(router).mount('#app');
+
+export { db };

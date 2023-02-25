@@ -1,7 +1,4 @@
 <template>
-  <h1>
-    {{ jota }}
-  </h1>
   <div class="home">
     <form @submit.prevent="onSubmit">
       <label for="apelido">
@@ -52,19 +49,65 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
+import {
+  ref as firebaseRef,
+  set as firebaseSet,
+  get as firebaseGet,
+  onDisconnect,
+  onValue,
+  update,
+  onChildRemoved,
+  query,
+  child,
+  get,
+} from 'firebase/database';
+import { db } from '../main.js';
 
-// getAuth().onAuthStateChanged((user) => {
-//   console.log(user);
-// });
+let user;
 
-// getAuth()
-//   .signInAnonymously()
-//   .catch((error) => {
-//     var errorCode = error.code;
-//     var errorMessage = error.message;
+function createHost(playerId) {
+  const host = firebaseRef(db, `host/`);
+  console.log('playerId');
+  console.log(playerId);
+  firebaseSet(host, playerId);
+}
 
-//     console.error(errorCode, errorMessage);
-//   });
+function checkIfActualHostExists() {
+  const players = firebaseRef(db, `players/`);
+  const host = firebaseRef(db, `host/`);
+  for (var player in players) {
+    if (player.id === host) return true;
+  }
+  return false;
+}
+
+function isHost(playerId) {
+  return true;
+  const players = firebaseRef(db, `players/`);
+  if (!host.value || checkIfActualHostExists()) {
+    createHost(playerId);
+    return true;
+  }
+  return host.value == playerId;
+}
+
+function updatePlayer() {
+  const playerId = user.uid;
+  const playerRef = firebaseRef(db, `players/${playerId}`);
+  return firebaseSet(playerRef, {
+    id: playerId,
+    apelido: apelido.value,
+    verdade1: verdade1.value,
+    verdade2: verdade2.value,
+    mentira: mentira.value,
+    host: isHost(playerId),
+  })
+    .then((player) => player)
+    .catch((error) => {
+      console.log(error);
+      return {};
+    });
+}
 
 export default {
   name: 'InitialView',
@@ -72,6 +115,8 @@ export default {
   methods: {
     onSubmit() {
       console.log(apelido.value, verdade1.value, verdade2.value, mentira.value);
+      // const playerRef = firebaseRef(db, `players/${user.uid}`);
+      updatePlayer();
     },
   },
   data() {
@@ -83,17 +128,63 @@ export default {
     };
   },
   beforeMount() {
-    // getAuth().onAuthStateChanged((user) => {
-    //   console.log(user);
-    // });
-    // getAuth()
-    //   .signInAnonymously()
-    //   .catch((error) => {
-    //     var errorCode = error.code;
-    //     var errorMessage = error.message;
-    //     console.error(errorCode, errorMessage);
-    //   });
     const auth = getAuth();
+    onAuthStateChanged(auth, async (u) => {
+      if (u) {
+        user = u;
+        await updatePlayer();
+        const playerRef = firebaseRef(db, `players/${user.uid}`);
+        const allPlayersRef = firebaseRef(db, `players/`);
+
+        onChildRemoved(allPlayersRef, async (disconnectedPlayer) => {
+          if (disconnectedPlayer.val().host) {
+            let allPlayers = (await firebaseGet(query(allPlayersRef))).val();
+            for (let p in allPlayers) {
+              const newHost = firebaseRef(db, `players/${allPlayers[p].id}`);
+              const hostData = (await firebaseGet(query(newHost))).val();
+              if (!hostData.host) {
+                firebaseSet(newHost, { ...hostData, host: true });
+              }
+              break;
+            }
+          }
+        });
+
+        // onValue(allPlayersRef, (snap) => {
+        //   console.log();
+        //   // const host = firebaseRef(db, `host/`);
+
+        //   // if (!checkIfActualHostExists()) {
+        //   //   for (let player in players) {
+        //   //     let newHost = firebaseRef(db, `players/${player.id}`);
+        //   //     // firebaseSet(host, player.id);
+        //   //     update(newHost, { host: true });
+        //   //     break;
+        //   //   }
+        //   // }
+        //   // //if (host.value === userId) firebaseSet(host, '');
+        //   // console.log('snap');
+        //   // console.log(snap);
+        //   // console.log(snap.val());
+        //   // if (snap.val().id) {
+        //   //   console.log('connected');
+        //   // } else {
+        //   //   console.log('disconnected');
+        //   //   firebaseSet(host, '');
+        //   // }
+        // });
+
+        // players.on('child_removed', (snapshot, prevChildKey) => {
+        //   console.log('child_removed');
+        //   console.log(prevChildKey);
+        //   console.log(snapshot.val());
+        // });
+
+        onDisconnect(playerRef).remove();
+      } else {
+        // error on login
+      }
+    });
     signInAnonymously(auth)
       .then(() => {
         console.log('Logado 😱');
@@ -104,13 +195,6 @@ export default {
 
         console.error(errorCode, errorMessage);
       });
-    onAuthStateChanged(auth, (user) => {
-      console.log(user);
-      if (user) {
-        console.log(user.uid);
-      } else {
-      }
-    });
   },
 };
 </script>
