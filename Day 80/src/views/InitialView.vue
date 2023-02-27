@@ -265,15 +265,11 @@ async function checkIfActualHostExists() {
 
 async function setHost(playerId) {
   if (!(await checkIfActualHostExists())) {
-    console.log('playerId');
-    console.log(playerId);
     return true;
   }
   const playerRef = firebaseRef(db, `players/${playerId}`);
   let player = await firebaseGet(query(playerRef));
   if (player.val() && player.val().host) {
-    console.log('playerId');
-    console.log(playerId);
     return true;
   }
   return false;
@@ -315,29 +311,45 @@ function retornaEscolhas(ordemObj) {
   return resObj;
 }
 
-function getRenderedEscolhasObj(jsonEscolhas) {
-  // let escolhas = {
-  //   t1: {
-  //     rai: true,
-  //     guto: false,
+function getRenderedEscolhasObj(jsonEscolhas, mapEscolhas) {
+  // jsonEscolhas = {
+  //   playerA: {
+  //     t0: true,
+  //     t1: false,
+  //     t2: false
   //   },
-  //   t2: {
-  //     rai: false,
-  //     guto: true,
-  //   },
-  // };
-  // return [campo1: ['rai'], campo2:  ['guto']]
+  //   playerB: {
+  //     t0: false,
+  //     t1: false,
+  //     t2: true
+  //   }
+  // }
+  // mapEscolhas = ['t2', 't0', 't1']
+  // return {campo1: ['rai'], campo2:  ['guto']}
 
   let resJson = {};
 
   for (let key in jsonEscolhas) {
-    let escolhaArray = [];
-    for (let jogadorId in jsonEscolhas[key]) {
-      if (jsonEscolhas[key][jogadorId]) {
-        escolhaArray.push(jogadorId);
+    if (key in ['campo1', 'campo2', 'campo3']) continue;
+    // let escolhaArray = [];
+    // for (let jogadorId in jsonEscolhas[key]) {
+    //   if (jsonEscolhas[key][jogadorId]) {
+    //     escolhaArray.push(jogadorId);
+    //   }
+    // }
+    // resJson[key] = escolhaArray;
+    let playerName = key;
+    let player = jsonEscolhas[key];
+    let index = 0;
+    for (let selectedTag in player) {
+      if (player[selectedTag]) {
+        let campoN = `campo${index}`;
+        if (!resJson[`${campoN}`]) resJson[`${campoN}`] = [];
+        resJson[`${campoN}`].push(playerName);
+        continue;
       }
+      index++;
     }
-    resJson[key] = escolhaArray;
   }
   console.log('resJson');
   console.log(resJson);
@@ -529,20 +541,21 @@ export default {
           if (num == 2) return jogadorAtualVal.verdade1;
           return jogadorAtualVal.verdade2;
         }
-        let estados = (
-          await firebaseGet(
-            query(firebaseRef(db, `atual/escolhas/${vPlayerObj.apelido}`))
-          )
+        let estados = await firebaseGet(
+          query(firebaseRef(db, `atual/escolhas/${vPlayerObj.apelido}`))
         );
         function getEstado(tag) {
-          if (!estados && estados.val()) {
-            return 'choosing';
-          }
-          
+          if (!estados) return 'choosing';
+          if (!estados.val()) return 'choosing';
+
           estados = estados.val();
-          console.log('getEstado');
-          console.log(estados);
+          let selecionado = true;
+          for (let tagCode in estados) {
+            selecionado;
+          }
         }
+        console.log('jogadorAtualVal');
+        console.log(jogadorAtualVal);
         let jogadorAtualObj = {
           campo1: getFato(arrayEmbaralhado[0]),
           campo2: getFato(arrayEmbaralhado[1]),
@@ -551,9 +564,15 @@ export default {
           estadoCampo2: getEstado(getFato(arrayEmbaralhado[1]).tag),
           estadoCampo3: getEstado(getFato(arrayEmbaralhado[2]).tag),
           apelido: jogadorAtualVal.jogador,
-          escolhas: getRenderedEscolhasObj(jogadorAtualVal.escolhas),
+          escolhas: getRenderedEscolhasObj(
+            jogadorAtualVal.escolhas,
+            arrayEmbaralhado.map((e) => getFato(e))
+          ),
         };
         jogadorAtual.value = jogadorAtualObj;
+        console.log('jogadorAtual');
+        console.log(jogadorAtual.value);
+        console.log({ ...jogadorAtual.value });
       });
     }
 
@@ -581,7 +600,6 @@ export default {
         });
         onDisconnect(playerRef).remove();
         setListeners();
-        console.log('end initial firebase setup');
       } else {
         // error on login
       }
