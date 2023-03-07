@@ -2,9 +2,10 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
+import Filter from 'bad-words';
 import { ref, onUnmounted, computed } from 'vue';
 
-const firebaseConfig = {
+firebase.initializeApp({
   apiKey: 'AIzaSyCeZpBgqQ-OQpZhV9ioCnGsyH23SGgEbJI',
   authDomain: 'vue-chat-app-df0e6.firebaseapp.com',
   projectId: 'vue-chat-app-df0e6',
@@ -12,9 +13,7 @@ const firebaseConfig = {
   messagingSenderId: '473623884556',
   appId: '1:473623884556:web:33bee52fdbb1335773cf29',
   measurementId: 'G-KSKT53YJ8P',
-};
-
-firebase.initializeApp(firebaseConfig);
+});
 
 const auth = firebase.auth();
 
@@ -28,7 +27,6 @@ export function useAuth() {
     const googleProvider = new firebase.auth.GoogleAuthProvider();
     await auth.signInWithPopup(googleProvider);
   };
-
   const signOut = () => auth.signOut();
 
   return { user, isLogin, signIn, signOut };
@@ -39,6 +37,7 @@ const messagesCollection = firestore.collection('messages');
 const messagesQuery = messagesCollection
   .orderBy('createdAt', 'desc')
   .limit(100);
+const filter = new Filter();
 
 export function useChat() {
   const messages = ref([]);
@@ -52,15 +51,15 @@ export function useChat() {
   const { user, isLogin } = useAuth();
   const sendMessage = (text) => {
     if (!isLogin.value) return;
-    const { photoUrl, uid, displayName } = user.value;
+    const { photoURL, uid, displayName } = user.value;
+
     messagesCollection.add({
       userName: displayName,
       userId: uid,
-      userPhotoURL: photoUrl,
-      text,
+      userPhotoURL: photoURL,
+      text: filter.clean(text),
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
   };
-
   return { messages, sendMessage };
 }
