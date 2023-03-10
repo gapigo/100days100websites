@@ -329,6 +329,9 @@ function getRenderedEscolhasObj(jsonEscolhas, mapEscolhas) {
 
   let resJson = {};
 
+  console.log('mapEscolhas');
+  console.log(mapEscolhas);
+
   for (let key in jsonEscolhas) {
     if (key in ['campo1', 'campo2', 'campo3']) continue;
     // let escolhaArray = [];
