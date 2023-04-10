@@ -1,0 +1,65 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.round_button {
+  background: #000;
+  position: relative;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.cone,
+.round_button > div {
+  /* background: #f00; */
+  height: 200px;
+  width: 200px;
+  overflow: hidden;
+  -webkit-transform-origin: 0% 100%;
+  -moz-transform-origin: 0% 100%;
+  -ms-transform-origin: 0% 100%;
+  transform-origin: 0% 100%;
+  -webkit-transform: skew(-45deg);
+  -moz-transform: skew(-45deg);
+  -ms-transform: skew(-45deg);
+  transform: skew(-45deg); /*Complement of rqrd angle or (90 - angle)*/
+  position: absolute;
+  rotate: calc(45deg * var(--i));
+  bottom: 0;
+  left: 0;
+  transition: 0.5s;
+}
+.cone:before,
+.round_button > div:before {
+  height: inherit;
+  width: inherit;
+  position: absolute;
+  content: '';
+  border-radius: 0 200px 0 0;
+  background: url('http://www.placekitten.com/g/300/200/');
+  background: var(--bg);
+  -webkit-transform-origin: 0% 100%;
+  -moz-transform-origin: 0% 100%;
+  -ms-transform-origin: 0% 100%;
+  transform-origin: 0% 100%;
+  -webkit-transform: skew(45deg);
+  -moz-transform: skew(45deg);
+  -ms-transform: skew(45deg);
+  transform: skew(45deg);
+}
+
+.cone:hover,
+.round_button > div:hover {
+  transform: skew(-45deg) scale(1.5);
+  transition: 0.5s;
+}

@@ -1,0 +1,112 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.round_button {
+  background: black;
+  position: relative;
+  width: 40vh;
+  height: 40vh;
+  border-radius: 50%;
+  /* overflow: hidden; */
+  border: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.round_button > div {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+}
+
+.round_button .qua1 {
+  border-top-left-radius: 100%;
+}
+.round_button .qua1 .wrapper {
+  transform: rotate(-45deg);
+}
+
+.round_button .qua2 {
+  border-top-right-radius: 100%;
+}
+.round_button .qua2 .wrapper {
+  transform: rotate(45deg);
+  top: 0;
+  right: 0;
+}
+
+.round_button .qua3 {
+  border-bottom-left-radius: 100%;
+}
+.round_button .qua3 .wrapper {
+  transform: rotate(-135deg);
+  bottom: 0;
+  left: 0;
+}
+
+.round_button .qua4 {
+  border-bottom-right-radius: 100%;
+}
+.round_button .qua4 .wrapper {
+  transform: rotate(135deg);
+  bottom: 0;
+  right: 0;
+}
+
+.round_button .wrapper div {
+  width: 50%;
+  height: 100%;
+}
+
+.round_button .wrapper {
+  display: flex;
+  height: 200%;
+  width: 200%;
+  position: absolute;
+}
+
+.round_button .wrapper div:nth-child(1) {
+  background: #f0f;
+}
+.round_button .wrapper div:nth-child(2) {
+  background: #0ff;
+}
+
+.qua1 {
+  overflow: visible !important;
+}
+
+.qua1 .wrapper div:nth-child(2) {
+  border-start-end-radius: 1000000px;
+  height: 50%;
+  position: relative;
+}
+.qua1 .wrapper div:nth-child(2):hover {
+  transform-origin: left;
+  transform: scale(1.5);
+}
+
+.qua1 .wrapper div:nth-child(2)::before {
+  background: white;
+  height: 100%;
+  width: 100%;
+  top: calc(25% + 2.09%);
+  left: calc(25% + 2.09%);
+  /* transform: rotate(45deg) scale(0.75); */
+  transform: rotate(45deg);
+  position: absolute;
+}
+
+.qua1 .wrapper div:nth-child(2):hover::before {
+  content: '';
+}

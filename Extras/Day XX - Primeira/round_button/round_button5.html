@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Round Button</title>
+    <link rel="stylesheet" href="./round_button_style5.css" />
+  </head>
+  <body>
+    <div class="round_button">
+      <div style="--i: 0; --bg: purple"></div>
+      <div style="--i: 1; --bg: orange"></div>
+      <div style="--i: 2; --bg: aquablue"></div>
+      <div style="--i: 3; --bg: lightgreen"></div>
+      <div style="--i: 4; --bg: yellow"></div>
+      <div style="--i: 5; --bg: #000"></div>
+    </div>
+    <div class="cone"></div>
+    <svg height="0" width="0">
+      <defs>
+        <clipPath clipPathUnits="objectBoundingBox" id="sector">
+          <path
+            fill="none"
+            stroke="#111"
+            stroke-width="1"
+            class="sector"
+            d="M0.5,0.5 l0.5,0 A0.5,0.5 0 0,0 0.75,.066987298 z"
+          ></path>
+        </clipPath>
+        <clipPath clipPathUnits="objectBoundingBox" id="sector2">
+          <path
+            fill="none"
+            stroke="#111"
+            stroke-width="1"
+            class="sector"
+            d="M0.5,0.5 l0.5,0 A0.5,0.5 0 0,0 0.75,.0669 z"
+          ></path>
+        </clipPath>
+      </defs>
+    </svg>
+  </body>
+</html>

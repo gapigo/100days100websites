@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.round_button {
+  position: relative;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.cone,
+.round_button > div {
+  position: absolute;
+  background: url('http://www.placekitten.com/g/300/200/');
+  /* background: #000;
+  background: var(--bg); */
+  height: 30vw;
+  width: 30vw;
+  clip-path: circle(50% at 100% 100%);
+  clip-path: url('#sector2');
+  /* transform: rotate(50deg); */
+  /* clip-path: polygon(50% 50%, 100% 50%, 75% 6.6%); */
+  transform: rotate(calc(60deg * var(--i)));
+}
