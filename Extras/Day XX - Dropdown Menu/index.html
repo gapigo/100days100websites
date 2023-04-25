@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="menuToggle"></div>
+      <div class="profile">
+        <h3>
+          Alina Smith <br />
+          <span>Designer</span>
+        </h3>
+        <div class="imgBx">
+          <img src="./user.jpg" alt="" />
+        </div>
+        <div class="menu">
+          <ul>
+            <li>
+              <a href="#">
+                <ion-icon name="person-outline"></ion-icon>
+                Profile
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <ion-icon name="chatbubble-outline"></ion-icon>
+                Inbox
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <ion-icon name="settings-outline"></ion-icon>
+                Settings
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <ion-icon name="help-circle-outline"></ion-icon>
+                Help
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <ion-icon name="log-out-outline"></ion-icon>
+                Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    <script>
+      let profile = document.querySelector('.profile');
+      let menu = document.querySelector('.menu');
+      profile.onclick = () => {
+        menu.classList.toggle('active');
+      };
+    </script>
+  </body>
+</html>
