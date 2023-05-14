@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 :root {
-  --color: #fff;
+  --color: #ffb9b9;
 }
 
 body {
@@ -31,6 +31,16 @@ body.on .bulb {
   box-shadow: 0 0 50px var(--color), 0 0 100px var(--color),
     0 0 150px var(--color), 0 0 200px var(--color), 0 0 250px var(--color),
     0 0 300px var(--color), 0 0 350px var(--color);
+  animation: change_color 1s ease-in-out infinite;
+}
+
+@keyframes change_color {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
 }
 .bulb::before {
   content: '';
