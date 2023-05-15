@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Beleza Premium - Produtos de Beleza</title>
+    <style>
+      /* Estilos para o corpo da página */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Estilos para o cabeçalho da página */
+      header {
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Estilos para a imagem do produto em destaque */
+      section:nth-of-type(1) img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* Estilos para o título do produto em destaque */
+      section:nth-of-type(1) h1 {
+        font-size: 2rem;
+        margin: 20px 0;
+      }
+
+      /* Estilos para o botão "Compre agora" */
+      button {
+        background-color: #e91e63;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #c2185b;
+      }
+
+      /* Estilos para as seções da página */
+      section {
+        margin: 50px 0;
+        padding: 0 20px;
+        box-sizing: border-box;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      /* Estilos para o título das seções */
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+      }
+
+      /* Estilos para a lista de recursos dos produtos */
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      /* Estilos para a lista de recursos dos produtos */
+      ul li {
+        margin-bottom: 10px;
+      }
+
+      /* Estilos para os depoimentos de clientes */
+      blockquote {
+        font-style: italic;
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+      }
+
+      cite {
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+
+      /* Estilos para a lista de produtos em destaque */
+      ul li img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* Estilos para o título e a descrição dos produtos em destaque */
+      ul li h3 {
+        font-size: 1.5rem;
+        margin: 10px 0;
+      }
+
+      ul li p {
+        margin-bottom: 20px;
+      }
+
+      /* Estilos para o formulário de inscrição na newsletter */
+      form label {
+        display: block;
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+      }
+
+      form input[type='email'] {
+        padding: 10px;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        border: none;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      form button[type='submit'] {
+        background-color: #e91e63;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      form button[type='submit']:hover {
+        background-color: #c2185b;
+      }
+
+      /* Estilos para a seção de perguntas frequentes */
+      dl {
+        margin-bottom: 20px;
+      }
+
+      dt {
+        font-weight: bold;
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+      }
+
+      dd {
+        margin-left: 0;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+      }
+      /* Estilos para o corpo da página */
+      body {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        margin: 0;
+        padding: 0;
+        color: #333;
+      }
+
+      /* Estilos para o cabeçalho da página */
+      header {
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Estilos para o logotipo */
+      header .logo {
+        display: inline-block;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #e91e63;
+        text-decoration: none;
+        max-width: 64px;
+        max-height: 64px;
+        overflow: hidden;
+      }
+
+      header .logo:hover {
+        color: #c2185b;
+      }
+
+      /* Estilos para a navegação */
+      header nav {
+        float: right;
+        margin-top: 10px;
+      }
+
+      header nav a {
+        display: inline-block;
+        margin-left: 20px;
+        color: #333;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      header nav a:hover {
+        color: #e91e63;
+      }
+
+      /* Estilos para a imagem do produto em destaque */
+      section:nth-of-type(1) img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* Estilos para o título do produto em destaque */
+      section:nth-of-type(1) h1 {
+        font-size: 4rem;
+        margin: 20px 0;
+        color: #333;
+        line-height: 1.2;
+      }
+
+      /* Estilos para o botão "Compre agora" */
+      button {
+        background-color: #e91e63;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #c2185b;
+      }
+
+      /* Estilos para as seções da página */
+      section {
+        margin: 100px 0;
+        padding: 0 20px;
+        box-sizing: border-box;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Estilos para o título das seções */
+      h2 {
+        font-size: 3rem;
+        margin-bottom: 40px;
+        color: #333;
+        text-align: center;
+      }
+
+      /* Estilos para a lista de recursos dos produtos */
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      /* Estilos para a lista de recursos dos produtos */
+      ul li {
+        margin-bottom: 20px;
+      }
+
+      /* Estilos para os depoimentos de clientes */
+      blockquote {
+        font-style: italic;
+        font-size: 2rem;
+        margin-bottom: 20px;
+      }
+
+      cite {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+      }
+
+      /* Estilos para a lista de produtos em destaque */
+      ul li img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 5px;
+        transition: transform 0.3s ease;
+      }
+
+      ul li img:hover {
+        transform: scale(1.05);
+      }
+
+      /* Estilos para o título e a descrição dos produtos em destaque */
+      ul li h3 {
+        font-size: 2rem;
+        margin: 20px 0 10px;
+        color: #333;
+        line-height: 1.2;
+      }
+
+      ul li p {
+        margin-bottom: 20px;
+        font-size: 1.5;
+      }
+      /* Estilos para o rodapé da página */
+      footer {
+        background-color: #333;
+        padding: 40px;
+        color: #fff;
+      }
+
+      /* Estilos para os links do rodapé */
+      footer a {
+        color: #fff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      footer a:hover {
+        color: #e91e63;
+      }
+
+      /* Estilos para o título do rodapé */
+      footer h3 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      /* Estilos para as informações de contato no rodapé */
+      footer p {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      footer ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+      }
+
+      footer ul li {
+        margin-right: 20px;
+      }
+
+      /* Estilos para os ícones das redes sociais no rodapé */
+      footer ul li a i {
+        font-size: 2.5rem;
+        color: #fff;
+        transition: color 0.3s ease;
+      }
+
+      footer ul li a:hover i {
+        color: #e91e63;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img
+        style="max-width: 64px"
+        src="https://play-lh.googleusercontent.com/DTzWtkxfnKwFO3ruybY1SKjJQnLYeuK3KmQmwV5OQ3dULr5iXxeEtzBLceultrKTIUTr"
+        alt="Logo da Marca"
+      />
+    </header>
+
+    <main>
+      <section>
+        <img
+          src="https://s2.glbimg.com/DRnSFUOI-uinNuMpgGvXTKbiPWg=/620x620/smart/e.glbimg.com/og/ed/f/original/2020/09/30/produto-de-beleza.jpg"
+          alt="Produto de destaque"
+        />
+        <h1>
+          Descubra a beleza que você merece com a nossa linha de produtos
+          premium
+        </h1>
+        <button>Compre agora</button>
+      </section>
+
+      <section>
+        <h2>Recursos dos produtos</h2>
+        <ul>
+          <li>Ingredientes naturais e orgânicos</li>
+          <li>Sem testes em animais</li>
+          <li>Fórmulas dermatologicamente testadas</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Depoimentos de clientes</h2>
+        <blockquote>
+          "Eu amo esses produtos! Minha pele nunca esteve tão bonita e
+          radiante."
+        </blockquote>
+        <cite>- Joana Silva, São Paulo</cite>
+      </section>
+
+      <section>
+        <h2>Os nossos melhores produtos</h2>
+        <ul>
+          <li>
+            <img
+              src="https://images.tcdn.com.br/img/img_prod/885889/kit_sebastian_professional_dark_oil_3_produtos_203_1_762bdcfed99e6a7e8516ab06c1d33cff.png"
+              alt="Produto 1"
+            />
+            <h3>Produto 1</h3>
+            <p>Descrição do produto.</p>
+          </li>
+          <li>
+            <img
+              src="https://cf.shopee.com.br/file/5643f0de7af2866789841fb2ae797e80"
+              alt="Produto 2"
+            />
+            <h3>Produto 2</h3>
+            <p>Descrição do produto.</p>
+          </li>
+          <li>
+            <img
+              src="https://a-static.mlcdn.com.br/800x560/kit-shampoo-creme-de-tratamento-novex-beleza-pura-3-produtos/imperioecommerce/14711725622/6f1c512f2266a719d4c232ea9c4bf2a8.jpg"
+              alt="Produto 3"
+            />
+            <h3>Produto 3</h3>
+            <p>Descrição do produto.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Inscreva-se na nossa newsletter</h2>
+        <form>
+          <label for="email">Insira o seu endereço de e-mail:</label>
+          <input type="email" id="email" name="email" required />
+          <button type="submit">Inscreva-se</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Perguntas frequentes</h2>
+        <dl>
+          <dt>Qual é a política de devolução?</dt>
+          <dd>
+            Todos os produtos podem ser devolvidos dentro de 30 dias após a
+            compra.
+          </dd>
+          <dt>Os produtos são testados em animais?</dt>
+          <dd>Não, nunca testamos nossos produtos em animais.</dd>
+          <dt>Qual é o prazo de entrega?</dt>
+          <dd>O prazo de entrega é de 5 a 7 dias úteis.</dd>
+        </dl>
+      </section>
+    </main>
+
+    <footer>
+      <p>Entre em contato conosco:</p>
+      <ul>
+        <li>Endereço: Rua X, número Y</li>
+        <li>Telefone: (11) 1234-5678</li>
+        <li>E-mail: contato@belezapremium.com.br</li>
+      </ul>
+      <p>Siga-nós nas redes sociais:</p>
+      <ul>
+        <li><a href="https://www.facebook.com/belezapremium">Facebook</a></li>
+        <li><a href="https://www.instagram.com/belezapremium">Instagram</a></li>
+        <li><a href="https://twitter.com/belezapremium">Twitter</a></li>
+      </ul>
+    </footer>
+  </body>
+</html>
