@@ -1,0 +1,55 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  /* height: 300px;
+  width: 300px;
+  background: #000; */
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+body header {
+  margin-bottom: 30px;
+}
+main > div {
+  /* background-repeat: no-repeat; */
+  /* background-position: 100%; */
+  background-size: 100%;
+  height: 75px;
+  width: 75px;
+}
+
+.agua {
+  background-image: url('./images/agua.png');
+}
+.navio {
+  background-image: url('./images/navio.png');
+}
+.navio2 {
+  background-image: url('./images/navio2.png');
+}
+.hidden {
+  background-image: url('./images/hidden.png');
+  cursor: pointer;
+}
+.submarino {
+  background-image: url('./images/submarino.png');
+}
+.janelaNaoClicavel {
+  height: 100vh;
+  width: 100vw;
+  z-index: 9999;
+  background: transparent;
+  position: absolute;
+}
